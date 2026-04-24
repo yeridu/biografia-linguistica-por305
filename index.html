@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Biografia Linguística de Mario Morales - POR 305, Universidade do Arizona. Uma apresentação sobre espanhol, inglês e português na vida, no trabalho e na pesquisa em saúde pública.">
+<title>Biografia Linguística — Mario Morales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --bg-2: #121826;
+    --bg-3: #1a2236;
+    --text: #f5f1e8;
+    --muted: #9aa3b8;
+    --teal: #5eb8a8;
+    --teal-soft: rgba(94, 184, 168, 0.12);
+    --gold: #e8b56a;
+    --gold-soft: rgba(232, 181, 106, 0.12);
+    --coral: #e8866a;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.16);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(60vw 60vh at 12% 8%, rgba(94, 184, 168, 0.10), transparent 60%),
+      radial-gradient(60vw 60vh at 90% 100%, rgba(232, 181, 106, 0.08), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stage {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .progress {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    z-index: 50;
+  }
+  .progress__bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    width: 10%;
+    transition: width 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .slides {
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    padding: 8vh 8vw 12vh;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    overflow-y: auto;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .slide__eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+  }
+
+  .slide__title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 5.2vw, 4.5rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2rem;
+    color: var(--text);
+  }
+
+  .slide__subtitle {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1rem, 1.6vw, 1.35rem);
+    font-weight: 400;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .slide__body {
+    font-size: clamp(1.02rem, 1.25vw, 1.2rem);
+    max-width: 54rem;
+    color: rgba(245, 241, 232, 0.9);
+  }
+  .slide__body p + p { margin-top: 1rem; }
+  .slide__body strong { color: var(--gold); font-weight: 600; }
+
+  .slide.active .slide__eyebrow { animation: riseIn 0.7s ease 0.1s both; }
+  .slide.active .slide__title   { animation: riseIn 0.8s ease 0.2s both; }
+  .slide.active .slide__subtitle{ animation: riseIn 0.8s ease 0.32s both; }
+  .slide.active .slide__body    { animation: riseIn 0.9s ease 0.45s both; }
+  .slide.active .cards          { animation: riseIn 1.0s ease 0.55s both; }
+  .slide.active .timeline       { animation: riseIn 1.0s ease 0.6s both; }
+  .slide.active .figure         { animation: riseIn 1.0s ease 0.5s both; }
+  .slide.active .flow           { animation: riseIn 1.0s ease 0.55s both; }
+  .slide.active .hero__portrait { animation: fadeIn 1.1s ease 0.15s both; }
+  .slide.active .final          { animation: riseIn 1.0s ease 0.5s both; }
+
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 5vw;
+    align-items: center;
+  }
+  .hero__portrait {
+    width: clamp(180px, 22vw, 320px);
+    height: clamp(180px, 22vw, 320px);
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-strong);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55), inset 0 0 0 6px rgba(255,255,255,0.03);
+  }
+  .hero__main {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.15rem, 1.9vw, 1.75rem);
+    font-weight: 300;
+    color: var(--text);
+    margin-top: 1rem;
+    line-height: 1.35;
+    max-width: 40rem;
+  }
+  .hero__main em {
+    font-style: normal;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .hero__tag {
+    display: inline-block;
+    margin-top: 1.75rem;
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Cards: three languages */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+    max-width: 68rem;
+  }
+  .card {
+    border: 1px solid var(--border);
+    background: linear-gradient(180deg, var(--bg-2), var(--bg-3));
+    padding: 1.75rem 1.5rem;
+    border-radius: 16px;
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--teal);
+    opacity: 0.7;
+  }
+  .card--memory::after { background: var(--coral); }
+  .card--work::after   { background: var(--teal); }
+  .card--door::after   { background: var(--gold); }
+  .card:hover, .card:focus-within {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  }
+  .card__flag {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+  .card__title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .card--memory .card__title { color: var(--coral); }
+  .card--work   .card__title { color: var(--teal); }
+  .card--door   .card__title { color: var(--gold); }
+  .card__desc {
+    color: rgba(245, 241, 232, 0.78);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  /* Timeline */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2.25rem;
+    max-width: 68rem;
+  }
+  .timeline__step {
+    padding: 0.9rem 1rem;
+    border-left: 2px solid var(--teal);
+    background: var(--teal-soft);
+    border-radius: 0 10px 10px 0;
+    font-size: 0.88rem;
+  }
+  .timeline__place {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.2rem;
+  }
+  .timeline__lang {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  /* Flow diagram */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    max-width: 68rem;
+    flex-wrap: wrap;
+  }
+  .flow__node {
+    padding: 0.8rem 1.2rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--bg-2);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+  .flow__arrow {
+    color: var(--teal);
+    font-size: 1.1rem;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* Figure (image/video card) */
+  .figure {
+    margin-top: 1.5rem;
+    border: 1px solid var(--border);
+    background: var(--bg-2);
+    border-radius: 14px;
+    overflow: hidden;
+    max-width: 56rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  }
+  .figure img, .figure video {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 62vh;
+    object-fit: contain;
+    background: #000;
+  }
+  /* Map figure: outlined country silhouette on dark background */
+  .figure--map {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 1rem 0.75rem;
+    max-width: 34rem;
+  }
+  .figure--map img {
+    background: transparent;
+    max-height: 48vh;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  .figure--map .map-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 0.6rem;
+    font-weight: 600;
+  }
+
+  /* Dedicated layout for the video slide: make the player large and keep the whole frame visible */
+  .slide--video {
+    padding-top: 5vh;
+    padding-bottom: 10vh;
+    justify-content: flex-start;
+  }
+  .slide--video .slide__title {
+    font-size: clamp(1.6rem, 3.6vw, 2.6rem);
+    margin-bottom: 0.6rem;
+  }
+  .slide__body--compact {
+    margin-bottom: 1rem;
+    font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+    max-width: 68rem;
+  }
+  .figure--video {
+    max-width: min(90vw, 1280px);
+    width: 100%;
+    margin-top: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .figure__videowrap {
+    position: relative;
+    width: 100%;
+    background: #000;
+    aspect-ratio: 16 / 9;
+    max-height: 68vh;
+  }
+  .figure__videowrap video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: contain;
+    background: #000;
+  }
+  /* Fallback for browsers without aspect-ratio support */
+  @supports not (aspect-ratio: 16 / 9) {
+    .figure__videowrap {
+      height: 0;
+      padding-bottom: 56.25%;
+    }
+  }
+  .figure__caption {
+    font-size: 0.92rem;
+    color: var(--muted);
+    padding: 1rem 1.25rem;
+    border-top: 1px solid var(--border);
+    line-height: 1.5;
+  }
+  .figure__caption strong { color: var(--text); font-weight: 600; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3vw;
+    align-items: center;
+    max-width: 78rem;
+  }
+
+  .final {
+    max-width: 60rem;
+  }
+  .final__line {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.1rem, 1.8vw, 1.7rem);
+    line-height: 1.45;
+    margin-top: 1rem;
+    color: rgba(245, 241, 232, 0.95);
+  }
+  .final__line strong { font-weight: 600; }
+  .final__line .acc-coral { color: var(--coral); }
+  .final__line .acc-teal  { color: var(--teal); }
+  .final__line .acc-gold  { color: var(--gold); }
+
+  /* HUD: progress counter + nav + hints */
+  .hud {
+    position: fixed;
+    bottom: 1rem;
+    left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.8rem;
+    z-index: 40;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+    pointer-events: none;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .hud__count {
+    letter-spacing: 0.14em;
+    color: var(--text);
+    pointer-events: auto;
+  }
+  .hud__count span { color: var(--teal); }
+  .hud__hint {
+    pointer-events: auto;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .hud__hint kbd {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.72rem;
+    margin: 0 2px;
+  }
+  .hud__nav {
+    display: flex;
+    gap: 0.5rem;
+    pointer-events: auto;
+  }
+  .hud button {
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.55rem 0.95rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.82rem;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .hud button:hover {
+    border-color: var(--teal);
+    background: var(--teal-soft);
+    color: var(--text);
+  }
+  .hud button:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+  .hud button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+
+  /* Speaker notes */
+  .notes {
+    position: fixed;
+    bottom: -55vh;
+    left: 0; right: 0;
+    background: linear-gradient(180deg, var(--bg-2), var(--bg));
+    border-top: 1px solid var(--border-strong);
+    padding: 1.5rem 2rem 2rem;
+    transition: bottom 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 45;
+    max-height: 48vh;
+    overflow-y: auto;
+    box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.4);
+  }
+  .notes.visible { bottom: 0; }
+  .notes__label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.7rem;
+  }
+  .notes__content {
+    font-size: 1rem;
+    color: rgba(245, 241, 232, 0.9);
+    max-width: 64rem;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 2rem; text-align: left; }
+    .cards { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .slide { padding: 7vh 6vw 16vh; }
+    .hud { padding: 0 1rem; font-size: 0.78rem; }
+    .hud__hint { display: none; }
+  }
+  @media (max-width: 560px) {
+    .timeline { grid-template-columns: 1fr; }
+    .hud__nav button { padding: 0.5rem 0.7rem; font-size: 0.78rem; }
+    .slide__title { font-size: 2rem; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition: none !important;
+      animation: none !important;
+    }
+    .slide { transform: none; }
+  }
+
+  /* Print: PDF backup */
+  @media print {
+    html, body {
+      overflow: visible;
+      height: auto;
+      background: white;
+      color: black;
+    }
+    body::before { display: none; }
+    .stage, .slides { height: auto; width: auto; overflow: visible; }
+    .slide {
+      position: relative;
+      inset: auto;
+      opacity: 1 !important;
+      transform: none !important;
+      page-break-after: always;
+      padding: 0.7in 0.8in;
+      min-height: 95vh;
+      height: auto;
+      color: black;
+      background: white;
+      pointer-events: auto;
+      display: block;
+    }
+    .slide__title, .slide__subtitle, .slide__body, .slide__eyebrow,
+    .card__desc, .figure__caption, .timeline__step, .final__line {
+      color: black !important;
+    }
+    .slide__eyebrow, .card__flag, .timeline__lang { color: #444 !important; }
+    .card {
+      border-color: #999;
+      background: #f6f6f6;
+      break-inside: avoid;
+    }
+    .card--memory .card__title { color: #b0452f !important; }
+    .card--work   .card__title { color: #1f7a68 !important; }
+    .card--door   .card__title { color: #a8761d !important; }
+    .figure {
+      border-color: #999;
+      background: white;
+      break-inside: avoid;
+      box-shadow: none;
+    }
+    .hud, .progress { display: none !important; }
+    .notes {
+      display: block !important;
+      position: relative;
+      bottom: 0;
+      max-height: none;
+      padding: 1rem 0 0 0;
+      background: none;
+      border-top: 1px dashed #888;
+      margin-top: 2rem;
+      box-shadow: none;
+      overflow: visible;
+    }
+    .notes__label { color: #555 !important; }
+    .notes__content { color: black !important; }
+    .hero__portrait {
+      box-shadow: none;
+      border-color: #bbb;
+    }
+    .timeline__step {
+      background: #f0f4f3;
+      border-left-color: #1f7a68;
+    }
+    .flow__node {
+      background: #f0f0f0;
+      border-color: #bbb;
+      color: black;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="progress" aria-hidden="true"><div class="progress__bar" id="progressBar"></div></div>
+
+  <main class="slides" id="slides" role="main">
+
+    <!-- Slide 1: Hero / Abertura -->
+    <section class="slide active" aria-labelledby="slide-1-title" data-notes="Cumprimento curto. Eu sou Mario, estudante de doutorado em saúde pública. Hoje vou apresentar minha biografia linguística. A ideia é simples: cada língua abre uma porta. Respirar. Sorrir. Olhar para o público.">
+      <div class="hero">
+        <img class="hero__portrait" src="assets/FestaJunina.jpeg" alt="Fotografia de Mario em uma Festa Junina, um evento tradicional brasileiro.">
+        <div>
+          <div class="slide__eyebrow">POR 305 &middot; Universidade do Arizona</div>
+          <h1 class="slide__title" id="slide-1-title">Biografia<br>Linguística</h1>
+          <div class="slide__subtitle">Mario Morales</div>
+          <p class="hero__main">Minha biografia não é sobre falar <em>perfeito</em>.<br>É sobre como cada língua me ajuda a lembrar, estudar, cuidar e pertencer.</p>
+          <span class="hero__tag">Espanhol &middot; Inglês &middot; Português</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: Três línguas, três portas -->
+    <section class="slide" aria-labelledby="slide-2-title" data-notes="Apresentar a estrutura da fala. Três línguas, três portas. Espanhol é memória. Inglês é trabalho. Português é uma nova porta. Não memorizar, só guiar o público pelo mapa.">
+      <div class="slide__eyebrow">Mapa da minha vida</div>
+      <h2 class="slide__title" id="slide-2-title">Três línguas, três portas</h2>
+      <p class="slide__body">Cada língua na minha vida tem uma função diferente. Cada uma abre uma porta.</p>
+
+      <div class="cards">
+        <article class="card card--memory">
+          <div class="card__flag">Espanhol</div>
+          <h3 class="card__title">Memória</h3>
+          <p class="card__desc">A língua da família, da infância e do afeto. É a língua que me faz voltar para casa.</p>
+        </article>
+        <article class="card card--work">
+          <div class="card__flag">Inglês</div>
+          <h3 class="card__title">Trabalho</h3>
+          <p class="card__desc">A língua do doutorado, da pesquisa em saúde pública e da colaboração internacional.</p>
+        </article>
+        <article class="card card--door">
+          <div class="card__flag">Português</div>
+          <h3 class="card__title">Nova porta</h3>
+          <p class="card__desc">A língua do Brasil, da curiosidade e de um novo caminho de pesquisa em One Health.</p>
+        </article>
+      </div>
+
+      <div class="timeline" aria-label="Linha do tempo das línguas">
+        <div class="timeline__step">
+          <div class="timeline__place">México</div>
+          <div class="timeline__lang">Espanhol &middot; família</div>
+        </div>
+        <div class="timeline__step">
+          <div class="timeline__place">Tucson</div>
+          <div class="timeline__lang">Inglês &middot; doutorado</div>
+        </div>
+        <div class="timeline__step">
+          <div class="timeline__place">Belize</div>
+          <div class="timeline__lang">Colaboração &middot; comunidade</div>
+        </div>
+        <div class="timeline__step">
+          <div class="timeline__place">Sala de português</div>
+          <div class="timeline__lang">Português &middot; Brasil</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: México / Espanhol -->
+    <section class="slide" aria-labelledby="slide-3-title" data-notes="Falar devagar e com calor. O espanhol é a primeira língua. É a língua da família. Contar que, quando ligo para casa, volto ao espanhol. Não precisa dar muitos detalhes biográficos.">
+      <div class="slide__eyebrow">Parte 1 &middot; México</div>
+      <h2 class="slide__title" id="slide-3-title">A língua<br>da memória</h2>
+      <div class="two-col">
+        <div class="slide__body">
+          <p>Eu sou do <strong>México</strong>. O espanhol é a primeira língua da minha vida.</p>
+          <p>É a língua da minha família. É a língua da minha infância. Em espanhol eu aprendi a pedir comida, a contar histórias e a dizer "eu te amo".</p>
+          <p>Quando eu penso em casa, eu penso em espanhol. O espanhol é a língua do afeto. É a língua da memória.</p>
+        </div>
+        <figure class="figure">
+          <img src="assets/Family.jpeg" alt="Foto da família de Mario: a língua de casa é o espanhol.">
+        </figure>
+      </div>
+    </section>
+
+    <!-- Slide 4: Tucson / Inglês -->
+    <section class="slide" aria-labelledby="slide-4-title" data-notes="Aqui falar sobre o doutorado na Universidade do Arizona. Saúde de adolescentes, violência no namoro, uso de substâncias, prevenção. Evitar dados específicos. O inglês é uma língua de trabalho, disciplina e oportunidades.">
+      <div class="slide__eyebrow">Parte 2 &middot; Tucson, Arizona</div>
+      <h2 class="slide__title" id="slide-4-title">A língua<br>do trabalho</h2>
+      <div class="two-col">
+        <div class="slide__body">
+          <p>Hoje eu moro em <strong>Tucson</strong>. Eu sou estudante de doutorado em saúde pública na Universidade do Arizona.</p>
+          <p>Eu pesquiso saúde de adolescentes, violência no namoro, uso de substâncias e prevenção. Eu leio, escrevo e analiso dados em inglês.</p>
+          <p>O inglês não é só a língua da escola. É a língua do trabalho, da disciplina e das oportunidades.</p>
+        </div>
+        <figure class="figure">
+          <img src="assets/Work.jpeg" alt="Foto do trabalho de Mario em Tucson: o inglês como língua de pesquisa.">
+        </figure>
+      </div>
+    </section>
+
+    <!-- Slide 5: Belize / colaboração -->
+    <section class="slide" aria-labelledby="slide-5-title" data-notes="Belize é um país pequeno mas diverso. Falar com respeito sobre as línguas locais, sem dizer que eu falo todas. A lição central: a pesquisa precisa escutar as comunidades. Contar a história curta da anta no rio.">
+      <div class="slide__eyebrow">Parte 2 &middot; Belize</div>
+      <h2 class="slide__title" id="slide-5-title">A língua<br>da colaboração</h2>
+      <div class="two-col">
+        <div class="slide__body">
+          <p>Eu também trabalho com pessoas em <strong>Belize</strong>. Belize é um país pequeno, mas muito diverso em línguas e culturas. Ali convivem inglês, espanhol, kriol e línguas maias.</p>
+          <p>Eu colaboro com organizações que trabalham com jovens e saúde. Em Belize eu aprendo uma lição importante: a pesquisa precisa <strong>escutar</strong> as comunidades, não só falar sobre elas.</p>
+          <p>Uma vez, eu estava flutuando em um rio em Belize. De repente, eu vi uma anta passando. A natureza também me ensina sobre a língua.</p>
+        </div>
+        <figure class="figure">
+          <img src="assets/Belize.jpg" alt="Foto de Mario em Belize: paisagem e colaboração.">
+        </figure>
+      </div>
+
+      <div class="flow" aria-label="Fluxo: língua, escuta, pesquisa, cuidado">
+        <span class="flow__node">Língua</span>
+        <span class="flow__arrow" aria-hidden="true">&rarr;</span>
+        <span class="flow__node">Escuta</span>
+        <span class="flow__arrow" aria-hidden="true">&rarr;</span>
+        <span class="flow__node">Pesquisa</span>
+        <span class="flow__arrow" aria-hidden="true">&rarr;</span>
+        <span class="flow__node">Cuidado</span>
+      </div>
+    </section>
+
+    <!-- Slide 6: Português nova porta -->
+    <section class="slide" aria-labelledby="slide-6-title" data-notes="Aqui a energia muda. Português é curiosidade. O sonho do Brasil. Pesquisadores brasileiros em saúde pública e meio ambiente. Não listar nomes específicos. O mapa é um lembrete visual: o português abre uma nova porta para o Brasil.">
+      <div class="slide__eyebrow">Parte 3 &middot; Português</div>
+      <h2 class="slide__title" id="slide-6-title">Uma nova porta</h2>
+      <div class="two-col">
+        <div class="slide__body">
+          <p>Agora eu estudo <strong>português</strong>. O português é novo para mim. Para mim, o português é uma nova porta.</p>
+          <p>Eu tenho um sonho: fazer pesquisa no <strong>Brasil</strong>. O Brasil tem pesquisadores incríveis em saúde pública e em meio ambiente.</p>
+          <p>Eu ainda estou aprendendo. Mas já escrevo frases, já leio pequenos textos, e já me sinto mais perto do Brasil.</p>
+        </div>
+        <figure class="figure figure--map">
+          <img src="assets/Brazil.svg" alt="Mapa do Brasil desenhado em contorno dourado.">
+          <figcaption class="map-label">Brasil</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Slide 7: Pantanal e One Health -->
+    <section class="slide" aria-labelledby="slide-7-title" data-notes="O momento mais pessoal. No verão passado eu visitei o Pantanal. Vi onças-pintadas pela primeira vez. Ali entendi a ideia de One Health, ou Saúde Única: saúde humana, saúde dos animais e saúde do ambiente conectadas. É por isso que eu estudo português.">
+      <div class="slide__eyebrow">Pantanal &middot; verão passado</div>
+      <h2 class="slide__title" id="slide-7-title">Onças-pintadas<br>e One Health</h2>
+      <div class="two-col">
+        <div class="slide__body">
+          <p>No verão passado, eu visitei o <strong>Pantanal</strong>. Eu vi <strong>onças-pintadas</strong> pela primeira vez na minha vida. Foi um momento muito especial.</p>
+          <p>Ali eu entendi uma ideia chamada <strong>One Health</strong>, ou Saúde Única. Esta ideia ensina que a saúde das pessoas, dos animais e do ambiente está conectada.</p>
+          <p>Esta é a minha próxima direção de pesquisa. E por isso eu quero falar português.</p>
+        </div>
+        <figure class="figure">
+          <img src="assets/Jaguar.jpg" alt="Onça-pintada macho no rio Três Irmãos, Pantanal, Brasil.">
+          <figcaption class="figure__caption">Onça-pintada no Pantanal. Foto: Charles J. Sharp, CC BY-SA 4.0.</figcaption>
+        </figure>
+      </div>
+
+      <div class="flow" aria-label="Ideia de One Health">
+        <span class="flow__node">Pessoas</span>
+        <span class="flow__arrow" aria-hidden="true">+</span>
+        <span class="flow__node">Animais</span>
+        <span class="flow__arrow" aria-hidden="true">+</span>
+        <span class="flow__node">Ambiente</span>
+        <span class="flow__arrow" aria-hidden="true">=</span>
+        <span class="flow__node" style="border-color: var(--gold); color: var(--gold);">One Health</span>
+      </div>
+    </section>
+
+    <!-- Slide 8: Vídeo -->
+    <section class="slide slide--video" aria-labelledby="slide-8-title" data-notes="Apresentar o vídeo com uma frase curta. Pressionar play. Deixar o público assistir um pouco. Depois do vídeo, lembrar: pesquisa e língua caminham juntas.">
+      <div class="slide__eyebrow">Pesquisa &middot; saúde pública</div>
+      <h2 class="slide__title" id="slide-8-title">Automedicando a Dor Social</h2>
+      <p class="slide__body slide__body--compact">Este vídeo é um exemplo do meu trabalho de pesquisa. Ele conecta saúde pública, dor social e uso de substâncias. Para mim, pesquisa e língua caminham juntas.</p>
+      <figure class="figure figure--video">
+        <div class="figure__videowrap">
+          <video controls preload="metadata" playsinline aria-label="Vídeo: Automedicando a Dor Social">
+            <source src="assets/Automedicando_a_Dor_Social.mp4" type="video/mp4">
+            Seu navegador não suporta o formato de vídeo. Abra o arquivo diretamente em <code>assets/Automedicando_a_Dor_Social.mp4</code>.
+          </video>
+        </div>
+        <figcaption class="figure__caption"><strong>Automedicando a Dor Social.</strong> Pesquisa e língua escutam as pessoas.</figcaption>
+      </figure>
+    </section>
+
+    <!-- Slide 9: Fecho -->
+    <section class="slide" aria-labelledby="slide-9-title" data-notes="Fechar com a frase principal. Falar devagar, olhar para o público. Sorrir. Agradecer.">
+      <div class="slide__eyebrow">Fecho</div>
+      <h2 class="slide__title" id="slide-9-title">Três línguas,<br>uma vida</h2>
+      <div class="final">
+        <p class="final__line">Eu carrego o <strong class="acc-coral">espanhol</strong> como memória,</p>
+        <p class="final__line">o <strong class="acc-teal">inglês</strong> como trabalho,</p>
+        <p class="final__line">e o <strong class="acc-gold">português</strong> como uma nova porta para imaginar futuros mais justos na América Latina.</p>
+        <p class="final__line" style="margin-top: 2rem; color: var(--muted); font-size: clamp(0.95rem, 1.2vw, 1.1rem);">As línguas não são só gramática. As línguas são lugares, memórias, trabalho, relações e formas de cuidar das pessoas.</p>
+        <p class="final__line" style="margin-top: 2rem; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.08em; color: var(--gold);">Muito obrigado.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <aside class="notes" id="notes" aria-live="polite" aria-label="Notas do apresentador">
+    <div class="notes__label">Notas do apresentador &middot; tecle S para esconder</div>
+    <div class="notes__content" id="notesContent"></div>
+  </aside>
+
+  <nav class="hud" aria-label="Controles de apresentação">
+    <div class="hud__count">
+      <span id="curr">1</span> / <span id="total">10</span>
+    </div>
+    <div class="hud__hint" aria-hidden="true">
+      <kbd>&larr;</kbd> <kbd>&rarr;</kbd> navegar &middot; <kbd>S</kbd> notas &middot; <kbd>F</kbd> tela cheia
+    </div>
+    <div class="hud__nav">
+      <button id="prev" type="button" aria-label="Slide anterior">&lsaquo; Anterior</button>
+      <button id="next" type="button" aria-label="Próximo slide">Próximo &rsaquo;</button>
+    </div>
+  </nav>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var idx = 0;
+
+  var currEl = document.getElementById('curr');
+  var totalEl = document.getElementById('total');
+  var bar = document.getElementById('progressBar');
+  var notes = document.getElementById('notes');
+  var notesContent = document.getElementById('notesContent');
+  var prevBtn = document.getElementById('prev');
+  var nextBtn = document.getElementById('next');
+
+  totalEl.textContent = total;
+
+  function render() {
+    for (var i = 0; i < slides.length; i++) {
+      slides[i].classList.toggle('active', i === idx);
+    }
+    currEl.textContent = (idx + 1);
+    bar.style.width = (((idx + 1) / total) * 100).toFixed(2) + '%';
+    notesContent.textContent = slides[idx].dataset.notes || '';
+    prevBtn.disabled = (idx === 0);
+    nextBtn.disabled = (idx === total - 1);
+    if (history && history.replaceState) {
+      try { history.replaceState(null, '', '#' + (idx + 1)); } catch (e) { /* ignore */ }
+    }
+  }
+
+  function goTo(n) {
+    if (n < 0) n = 0;
+    if (n > total - 1) n = total - 1;
+    if (n === idx) return;
+    idx = n;
+    render();
+    pauseAllVideos();
+  }
+
+  function next() { goTo(idx + 1); }
+  function prev() { goTo(idx - 1); }
+
+  function pauseAllVideos() {
+    var vids = document.querySelectorAll('video');
+    for (var i = 0; i < vids.length; i++) {
+      var v = vids[i];
+      if (!v.paused) {
+        try { v.pause(); } catch (e) { /* ignore */ }
+      }
+    }
+  }
+
+  function toggleNotes() {
+    notes.classList.toggle('visible');
+  }
+
+  function toggleFullscreen() {
+    var docEl = document.documentElement;
+    if (!document.fullscreenElement) {
+      if (docEl.requestFullscreen) docEl.requestFullscreen();
+      else if (docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen();
+      else if (docEl.msRequestFullscreen) docEl.msRequestFullscreen();
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+      else if (document.msExitFullscreen) document.msExitFullscreen();
+    }
+  }
+
+  prevBtn.addEventListener('click', prev);
+  nextBtn.addEventListener('click', next);
+
+  document.addEventListener('keydown', function (e) {
+    var tag = (e.target && e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      next();
+      e.preventDefault();
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      prev();
+      e.preventDefault();
+    } else if (e.key === 's' || e.key === 'S') {
+      toggleNotes();
+      e.preventDefault();
+    } else if (e.key === 'f' || e.key === 'F') {
+      toggleFullscreen();
+      e.preventDefault();
+    } else if (e.key === 'Home') {
+      goTo(0);
+      e.preventDefault();
+    } else if (e.key === 'End') {
+      goTo(total - 1);
+      e.preventDefault();
+    } else if (e.key === 'Escape') {
+      if (notes.classList.contains('visible')) {
+        notes.classList.remove('visible');
+      }
+    }
+  });
+
+  // Touch swipe
+  var touchStartX = null;
+  document.addEventListener('touchstart', function (e) {
+    if (e.touches && e.touches.length === 1) touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (touchStartX === null) return;
+    var endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : touchStartX;
+    var dx = endX - touchStartX;
+    if (Math.abs(dx) > 60) {
+      if (dx < 0) next();
+      else prev();
+    }
+    touchStartX = null;
+  });
+
+  // Deep link via hash (#2 opens slide 2)
+  if (location.hash) {
+    var n = parseInt(location.hash.replace('#', ''), 10);
+    if (!isNaN(n) && n >= 1 && n <= total) idx = n - 1;
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
