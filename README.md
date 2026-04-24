@@ -1,5 +1,7 @@
 # Biografia Linguística — Mario Morales
 
+**Abrir a apresentação:** https://yeridu.github.io/biografia-linguistica-por305/
+
 Apresentação final para o curso POR 305 (Universidade do Arizona). Página web de slides em português, com foto, vídeo, navegação por teclado e notas do apresentador.
 
 ## Como abrir
