@@ -164,6 +164,53 @@
     gap: 5vw;
     align-items: center;
   }
+
+  /* Scan-me QR card on slide 1: floats at the bottom-right corner of the slide
+     so the audience can lift their phones and follow along on their own
+     screens. White panel keeps the QR high-contrast against the dark deck. */
+  .qr-card {
+    position: absolute;
+    right: 4vw;
+    bottom: 14vh;
+    background: #f5f1e8;
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    padding: 0.85rem 0.85rem 0.65rem;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    width: clamp(118px, 13vw, 168px);
+  }
+  .qr-card__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    color: #0a0e1a;
+  }
+  .qr-card__label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.66rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #1a2236;
+    text-align: center;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+  .qr-card__url {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.56rem;
+    letter-spacing: 0.04em;
+    color: #4a5266;
+    text-align: center;
+    word-break: break-all;
+    line-height: 1.2;
+  }
+  @media (max-width: 900px) {
+    .qr-card { display: none; }
+  }
   .hero__portrait {
     width: clamp(180px, 22vw, 320px);
     height: clamp(180px, 22vw, 320px);
@@ -738,6 +785,11 @@
           <span class="hero__tag">Espanhol &middot; Inglês &middot; Português</span>
         </div>
       </div>
+      <aside class="qr-card" aria-label="Código QR para abrir a apresentação no celular">
+        <img class="qr-card__img" src="assets/QR_biografia.svg" alt="Código QR. Aponte o celular para acompanhar a apresentação.">
+        <div class="qr-card__label">Aponte o celular<br>para acompanhar</div>
+        <div class="qr-card__url">yeridu.github.io/<br>biografia-linguistica-por305</div>
+      </aside>
       <aside class="slide__script">
         <div class="script-block script-block--direction">
           <span class="script-block__label">Instrução</span>
