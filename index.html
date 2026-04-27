@@ -504,6 +504,78 @@
   .final {
     max-width: 60rem;
   }
+
+  /* Music card on slide 9: Spotify embed (album art + play button + metadata)
+     plus a styled caption underneath listing artist, song, and album in the
+     deck's typography. THRIVE-Belize uses a fixed-position Spotify box; here
+     we place it inline on the closing slide so it reads as part of the
+     "obrigado" moment. The Iframe API call in <script> below seeks to 26 s
+     so the song starts at the desired moment when the listener clicks play. */
+  .music-card {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    width: 100%;
+    max-width: 28rem;
+    margin-left: auto;
+  }
+  .music-card__embed {
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.45);
+    background: var(--bg-2);
+    min-height: 152px;
+  }
+  .music-card__embed iframe {
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 14px;
+  }
+  .music-card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 10px;
+    background: var(--bg-2);
+  }
+  .music-card__song {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.01em;
+  }
+  .music-card__artist {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.92rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .music-card__album {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .music-card__album em { color: var(--text); font-style: italic; }
+  /* When the music card sits in a two-col with the final text, give the
+     left column slightly more room for breathing. */
+  .two-col--final {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 4vw;
+    max-width: 80rem;
+    align-items: center;
+  }
+  .two-col--final .final { max-width: none; }
+  @media (max-width: 900px) {
+    .two-col--final { grid-template-columns: 1fr; }
+    .music-card { margin-left: 0; max-width: 100%; }
+  }
   .final__line {
     font-family: 'Space Grotesk', sans-serif;
     font-size: clamp(1.1rem, 1.8vw, 1.7rem);
@@ -732,6 +804,7 @@
     }
     .hud, .progress { display: none !important; }
     .notes { display: none !important; }
+    .music-card, .qr-card { display: none !important; }
     .slide__script {
       display: block !important;
       margin-top: 2rem;
@@ -1069,12 +1142,24 @@
     <section class="slide" aria-labelledby="slide-9-title">
       <div class="slide__eyebrow">Fecho</div>
       <h2 class="slide__title" id="slide-9-title">Três línguas,<br>uma vida</h2>
-      <div class="final">
-        <p class="final__line">Eu carrego o <strong class="acc-coral">espanhol</strong> como memória,</p>
-        <p class="final__line">o <strong class="acc-teal">inglês</strong> como trabalho,</p>
-        <p class="final__line">e o <strong class="acc-gold">português</strong> como uma nova porta para imaginar futuros mais justos na América Latina.</p>
-        <p class="final__line" style="margin-top: 2rem; color: var(--muted); font-size: clamp(0.95rem, 1.2vw, 1.1rem);">As línguas não são só gramática. As línguas são lugares, memórias, trabalho, relações e formas de cuidar das pessoas.</p>
-        <p class="final__line" style="margin-top: 2rem; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.08em; color: var(--gold);">Muito obrigado.</p>
+      <div class="two-col two-col--final">
+        <div class="final">
+          <p class="final__line">Eu carrego o <strong class="acc-coral">espanhol</strong> como memória,</p>
+          <p class="final__line">o <strong class="acc-teal">inglês</strong> como trabalho,</p>
+          <p class="final__line">e o <strong class="acc-gold">português</strong> como uma nova porta para imaginar futuros mais justos na América Latina.</p>
+          <p class="final__line" style="margin-top: 2rem; color: var(--muted); font-size: clamp(0.95rem, 1.2vw, 1.1rem);">As línguas não são só gramática. As línguas são lugares, memórias, trabalho, relações e formas de cuidar das pessoas.</p>
+          <p class="final__line" style="margin-top: 2rem; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.08em; color: var(--gold);">Muito obrigado.</p>
+        </div>
+        <aside class="music-card" aria-label="Música de fecho">
+          <div id="spotify-music-embed" class="music-card__embed">
+            <noscript><a href="https://open.spotify.com/track/5JYhfjSmfbgp8wgePpKOjC?t=26">Abrir no Spotify</a></noscript>
+          </div>
+          <div class="music-card__meta">
+            <div class="music-card__song">&ldquo;FICA CONMIGO&rdquo;</div>
+            <div class="music-card__artist">Aestus</div>
+            <div class="music-card__album">do álbum <em>E NADA MAIS</em> &middot; 2025</div>
+          </div>
+        </aside>
       </div>
       <aside class="slide__script">
         <div class="script-block script-block--direction">
@@ -1110,6 +1195,37 @@
     </div>
   </nav>
 </div>
+
+<!-- Spotify Iframe API: loads the player on the closing slide and seeks to 0:26
+     so the song "Fica Conmigo" by Aestus opens at the requested moment. -->
+<script>
+  // Spotify calls window.onSpotifyIframeApiReady when the API is ready.
+  window.onSpotifyIframeApiReady = function (IFrameAPI) {
+    var element = document.getElementById('spotify-music-embed');
+    if (!element) return;
+    var options = {
+      uri: 'spotify:track:5JYhfjSmfbgp8wgePpKOjC',
+      width: '100%',
+      height: 152
+    };
+    IFrameAPI.createController(element, options, function (controller) {
+      window.__spotifyCtrl = controller;
+      var seeked = false;
+      // Seek as soon as the player reports ready; some browser builds need a
+      // post-load seek as well, so we re-seek the first time playback starts
+      // near zero to guarantee the song opens at second 26.
+      controller.addListener('ready', function () {
+        try { controller.seek(26); seeked = true; } catch (e) { /* ignore */ }
+      });
+      controller.addListener('playback_update', function (e) {
+        if (!seeked && e && e.data && typeof e.data.position === 'number' && e.data.position < 4000) {
+          try { controller.seek(26); seeked = true; } catch (err) { /* ignore */ }
+        }
+      });
+    });
+  };
+</script>
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 
 <script>
 (function () {
@@ -1155,6 +1271,7 @@
     idx = n;
     render();
     pauseAllVideos();
+    syncSpotify();
   }
 
   function next() { goTo(idx + 1); }
@@ -1167,6 +1284,17 @@
       if (!v.paused) {
         try { v.pause(); } catch (e) { /* ignore */ }
       }
+    }
+  }
+
+  // Pause the Spotify track whenever the closing slide is no longer active
+  // so it does not bleed into a re-open of an earlier slide.
+  function syncSpotify() {
+    var ctrl = window.__spotifyCtrl;
+    if (!ctrl) return;
+    var lastSlide = idx === total - 1;
+    if (!lastSlide) {
+      try { ctrl.pause(); } catch (e) { /* ignore */ }
     }
   }
 
