@@ -528,7 +528,53 @@
     color: rgba(245, 241, 232, 0.9);
     max-width: 64rem;
     line-height: 1.6;
-    white-space: pre-line;
+  }
+
+  /* Speaker script: structured INSTRUÇÃO vs FALAR blocks. Hidden in normal slide rendering;
+     copied into the notes panel by JS, and shown inline when printing. */
+  .slide__script {
+    display: none;
+  }
+  .script-block {
+    margin-bottom: 0.95rem;
+    padding: 0.85rem 1.05rem;
+    border-radius: 10px;
+    border-left: 3px solid var(--border-strong);
+    background: var(--bg-3);
+  }
+  .script-block:last-child { margin-bottom: 0; }
+  .script-block--direction {
+    border-left-color: var(--muted);
+    background: rgba(154, 163, 184, 0.10);
+  }
+  .script-block--say {
+    border-left-color: var(--gold);
+    background: var(--gold-soft);
+  }
+  .script-block__label {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+  }
+  .script-block--direction .script-block__label { color: var(--muted); }
+  .script-block--say .script-block__label { color: var(--gold); }
+  .script-block p {
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  .script-block p + p { margin-top: 0.45rem; }
+  .script-block--say p {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.05rem;
+  }
+  .script-block--direction p {
+    font-style: italic;
+    color: rgba(245, 241, 232, 0.88);
   }
 
   /* Responsive */
@@ -600,20 +646,26 @@
       box-shadow: none;
     }
     .hud, .progress { display: none !important; }
-    .notes {
+    .notes { display: none !important; }
+    .slide__script {
       display: block !important;
-      position: relative;
-      bottom: 0;
-      max-height: none;
-      padding: 1rem 0 0 0;
-      background: none;
-      border-top: 1px dashed #888;
       margin-top: 2rem;
-      box-shadow: none;
-      overflow: visible;
+      padding-top: 1.2rem;
+      border-top: 1px dashed #888;
+      break-inside: avoid;
     }
-    .notes__label { color: #555 !important; }
-    .notes__content { color: black !important; }
+    .slide__script .script-block {
+      background: #f6f6f6;
+      border-left-color: #888;
+      break-inside: avoid;
+    }
+    .slide__script .script-block--say {
+      background: #fdf4e0;
+      border-left-color: #c8941d;
+    }
+    .slide__script .script-block__label { color: #444 !important; }
+    .slide__script .script-block--say .script-block__label { color: #a8761d !important; }
+    .slide__script .script-block p { color: black !important; }
     .hero__portrait {
       box-shadow: none;
       border-color: #bbb;
@@ -637,7 +689,7 @@
   <main class="slides" id="slides" role="main">
 
     <!-- Slide 1: Hero / Abertura -->
-    <section class="slide active" aria-labelledby="slide-1-title" data-notes="Cumprimento curto. Eu sou Mario, estudante de doutorado em saúde pública. Hoje vou apresentar minha biografia linguística. A ideia é simples: cada língua abre uma porta. Respirar. Sorrir. Olhar para o público.">
+    <section class="slide active" aria-labelledby="slide-1-title">
       <div class="hero">
         <img class="hero__portrait" src="assets/FestaJunina.jpeg" alt="Fotografia de Mario em uma Festa Junina, um evento tradicional brasileiro.">
         <div>
@@ -648,10 +700,21 @@
           <span class="hero__tag">Espanhol &middot; Inglês &middot; Português</span>
         </div>
       </div>
+      <aside class="slide__script">
+        <div class="script-block script-block--direction">
+          <span class="script-block__label">Instrução</span>
+          <p>Sorrir. Olhar para o público. Respirar fundo antes de começar.</p>
+        </div>
+        <div class="script-block script-block--say">
+          <span class="script-block__label">Falar</span>
+          <p>"Olá, boa tarde. Eu sou Mario Morales. Eu sou estudante de doutorado em saúde pública na Universidade do Arizona."</p>
+          <p>"Hoje eu vou apresentar a minha biografia linguística. A ideia é simples: cada língua, na minha vida, abre uma porta diferente."</p>
+        </div>
+      </aside>
     </section>
 
     <!-- Slide 2: Três línguas, três portas -->
-    <section class="slide" aria-labelledby="slide-2-title" data-notes="Apresentar a estrutura da fala. Três línguas, três portas. Espanhol é memória. Inglês é trabalho. Português é uma nova porta. Não memorizar, só guiar o público pelo mapa.">
+    <section class="slide" aria-labelledby="slide-2-title">
       <div class="slide__eyebrow">Mapa da minha vida</div>
       <h2 class="slide__title" id="slide-2-title">Três línguas, três portas</h2>
       <p class="slide__body">Cada língua na minha vida tem uma função diferente. Cada uma abre uma porta.</p>
@@ -692,10 +755,23 @@
           <div class="timeline__lang">Português &middot; Brasil</div>
         </div>
       </div>
+
+      <aside class="slide__script">
+        <div class="script-block script-block--direction">
+          <span class="script-block__label">Instrução</span>
+          <p>Mostrar os três cartões com a mão. Não memorizar tudo: só guiar o público pelo mapa.</p>
+        </div>
+        <div class="script-block script-block--say">
+          <span class="script-block__label">Falar</span>
+          <p>"Eu falo três línguas, e cada uma tem uma função diferente."</p>
+          <p>"O espanhol é a língua da memória. O inglês é a língua do trabalho. E o português é a minha nova porta."</p>
+          <p>"Aqui na linha do tempo: México, Tucson, Belize, e agora a sala de português."</p>
+        </div>
+      </aside>
     </section>
 
     <!-- Slide 3: México / Espanhol -->
-    <section class="slide" aria-labelledby="slide-3-title" data-notes="Falar devagar e com calor. O espanhol é a primeira língua. É a língua da família. Contar que, quando ligo para casa, volto ao espanhol. Não precisa dar muitos detalhes biográficos.">
+    <section class="slide" aria-labelledby="slide-3-title">
       <div class="slide__eyebrow">Parte 1 &middot; México</div>
       <h2 class="slide__title" id="slide-3-title">A língua<br>da memória</h2>
       <div class="two-col">
@@ -708,10 +784,22 @@
           <img src="assets/Family.jpeg" alt="Foto da família de Mario: a língua de casa é o espanhol.">
         </figure>
       </div>
+      <aside class="slide__script">
+        <div class="script-block script-block--direction">
+          <span class="script-block__label">Instrução</span>
+          <p>Falar mais devagar, com calor. Olhar para a foto da família por um segundo, depois voltar para o público.</p>
+        </div>
+        <div class="script-block script-block--say">
+          <span class="script-block__label">Falar</span>
+          <p>"Eu sou do México. O espanhol é a primeira língua da minha vida. É a língua da minha família."</p>
+          <p>"Em espanhol eu aprendi a pedir comida, a contar histórias e a dizer 'eu te amo'."</p>
+          <p>"Quando eu penso em casa, eu penso em espanhol. O espanhol é a língua do afeto. É a língua da memória."</p>
+        </div>
+      </aside>
     </section>
 
     <!-- Slide 4: Tucson / Inglês -->
-    <section class="slide" aria-labelledby="slide-4-title" data-notes="Aqui falar sobre o doutorado na Universidade do Arizona. Saúde de adolescentes, violência no namoro, uso de substâncias, prevenção. Evitar dados específicos. O inglês é uma língua de trabalho, disciplina e oportunidades.">
+    <section class="slide" aria-labelledby="slide-4-title">
       <div class="slide__eyebrow">Parte 2 &middot; Tucson, Arizona</div>
       <h2 class="slide__title" id="slide-4-title">A língua<br>do trabalho</h2>
       <div class="two-col">
@@ -724,10 +812,22 @@
           <img src="assets/Work.jpeg" alt="Foto do trabalho de Mario em Tucson: o inglês como língua de pesquisa.">
         </figure>
       </div>
+      <aside class="slide__script">
+        <div class="script-block script-block--direction">
+          <span class="script-block__label">Instrução</span>
+          <p>Tom mais firme, mais profissional. Não dar dados específicos da pesquisa.</p>
+        </div>
+        <div class="script-block script-block--say">
+          <span class="script-block__label">Falar</span>
+          <p>"Hoje eu moro em Tucson. Eu sou estudante de doutorado em saúde pública na Universidade do Arizona."</p>
+          <p>"Eu pesquiso saúde de adolescentes, violência no namoro, uso de substâncias e prevenção. Eu leio, escrevo e analiso dados em inglês."</p>
+          <p>"O inglês não é só a língua da escola. É a língua do trabalho, da disciplina e das oportunidades."</p>
+        </div>
+      </aside>
     </section>
 
     <!-- Slide 5: Belize / colaboração -->
-    <section class="slide" aria-labelledby="slide-5-title" data-notes="Belize é um país pequeno mas diverso. Falar com respeito sobre as línguas locais, sem dizer que eu falo todas. A lição central: a pesquisa precisa escutar as comunidades.">
+    <section class="slide" aria-labelledby="slide-5-title">
       <div class="slide__eyebrow">Parte 2 &middot; Belize</div>
       <h2 class="slide__title" id="slide-5-title">A língua<br>da colaboração</h2>
       <div class="two-col">
@@ -749,10 +849,24 @@
         <span class="flow__arrow" aria-hidden="true">&rarr;</span>
         <span class="flow__node">Cuidado</span>
       </div>
+
+      <aside class="slide__script">
+        <div class="script-block script-block--direction">
+          <span class="script-block__label">Instrução</span>
+          <p>Tom de respeito. Não dizer que eu falo todas as línguas locais: só nomeá-las. Apontar para o fluxo no fim.</p>
+        </div>
+        <div class="script-block script-block--say">
+          <span class="script-block__label">Falar</span>
+          <p>"Eu também trabalho com pessoas em Belize. Belize é um país pequeno, mas muito diverso em línguas e culturas."</p>
+          <p>"Ali convivem inglês, espanhol, kriol e línguas maias."</p>
+          <p>"Em Belize eu aprendo uma lição importante: a pesquisa precisa escutar as comunidades, não só falar sobre elas."</p>
+          <p>"Língua, escuta, pesquisa, cuidado: é assim que tudo se conecta."</p>
+        </div>
+      </aside>
     </section>
 
     <!-- Slide 6: Português nova porta -->
-    <section class="slide" aria-labelledby="slide-6-title" data-notes="Aqui a energia muda. Português é curiosidade. O sonho do Brasil. Pesquisadores brasileiros em saúde pública e meio ambiente. Não listar nomes específicos. O mapa é um lembrete visual: o português abre uma nova porta para o Brasil.">
+    <section class="slide" aria-labelledby="slide-6-title">
       <div class="slide__eyebrow">Parte 3 &middot; Português</div>
       <h2 class="slide__title" id="slide-6-title">Uma nova porta</h2>
       <div class="two-col">
@@ -766,10 +880,22 @@
           <figcaption class="map-label">Brasil</figcaption>
         </figure>
       </div>
+      <aside class="slide__script">
+        <div class="script-block script-block--direction">
+          <span class="script-block__label">Instrução</span>
+          <p>Mudar a energia. Mostrar curiosidade, sorriso. Apontar para o mapa do Brasil.</p>
+        </div>
+        <div class="script-block script-block--say">
+          <span class="script-block__label">Falar</span>
+          <p>"Agora eu estudo português. O português é novo para mim, e por isso é uma nova porta."</p>
+          <p>"Eu tenho um sonho: fazer pesquisa no Brasil. O Brasil tem pesquisadores incríveis em saúde pública e em meio ambiente."</p>
+          <p>"Eu ainda estou aprendendo. Mas eu já escrevo frases, eu já leio pequenos textos, e eu já me sinto mais perto do Brasil."</p>
+        </div>
+      </aside>
     </section>
 
     <!-- Slide 7: Pantanal e One Health -->
-    <section class="slide" aria-labelledby="slide-7-title" data-notes="O momento mais pessoal. No verão passado eu visitei o Pantanal. Vi onças-pintadas pela primeira vez. Ali entendi a ideia de One Health, ou Saúde Única: saúde humana, saúde dos animais e saúde do ambiente conectadas. É por isso que eu estudo português.">
+    <section class="slide" aria-labelledby="slide-7-title">
       <div class="slide__eyebrow">Pantanal &middot; verão passado</div>
       <h2 class="slide__title" id="slide-7-title">Onças-pintadas<br>e One Health</h2>
       <div class="two-col">
@@ -793,10 +919,23 @@
         <span class="flow__arrow" aria-hidden="true">=</span>
         <span class="flow__node" style="border-color: var(--gold); color: var(--gold);">One Health</span>
       </div>
+
+      <aside class="slide__script">
+        <div class="script-block script-block--direction">
+          <span class="script-block__label">Instrução</span>
+          <p>Momento mais pessoal e emocionado. Falar das onças com entusiasmo. Apontar a foto.</p>
+        </div>
+        <div class="script-block script-block--say">
+          <span class="script-block__label">Falar</span>
+          <p>"No verão passado, eu visitei o Pantanal. Eu vi onças-pintadas pela primeira vez na minha vida. Foi um momento muito especial."</p>
+          <p>"Ali eu entendi uma ideia chamada One Health, ou Saúde Única. Esta ideia ensina que a saúde das pessoas, dos animais e do ambiente está conectada."</p>
+          <p>"Esta é a minha próxima direção de pesquisa. E é por isso que eu quero falar português."</p>
+        </div>
+      </aside>
     </section>
 
     <!-- Slide 8: Vídeo -->
-    <section class="slide slide--video" aria-labelledby="slide-8-title" data-notes="Apresentar o vídeo com uma frase curta. Pressionar play. Deixar o público assistir um pouco. Depois do vídeo, lembrar: pesquisa e língua caminham juntas.">
+    <section class="slide slide--video" aria-labelledby="slide-8-title">
       <div class="slide__eyebrow">Pesquisa &middot; saúde pública</div>
       <h2 class="slide__title" id="slide-8-title">Automedicando a Dor Social</h2>
       <p class="slide__body slide__body--compact">Este vídeo é um exemplo do meu trabalho de pesquisa. Ele conecta saúde pública, dor social e uso de substâncias. Para mim, pesquisa e língua caminham juntas.</p>
@@ -809,10 +948,29 @@
         </div>
         <figcaption class="figure__caption"><strong>Automedicando a Dor Social.</strong> Pesquisa e língua escutam as pessoas.</figcaption>
       </figure>
+      <aside class="slide__script">
+        <div class="script-block script-block--direction">
+          <span class="script-block__label">Instrução &middot; antes do vídeo</span>
+          <p>Apresentar o vídeo com uma frase curta. Apertar play.</p>
+        </div>
+        <div class="script-block script-block--say">
+          <span class="script-block__label">Falar &middot; antes do vídeo</span>
+          <p>"Este vídeo é um exemplo do meu trabalho de pesquisa. Ele conecta saúde pública, dor social e uso de substâncias."</p>
+          <p>"Para mim, pesquisa e língua caminham juntas."</p>
+        </div>
+        <div class="script-block script-block--direction">
+          <span class="script-block__label">Instrução &middot; depois do vídeo</span>
+          <p>Pausar o vídeo após um trecho curto. Voltar a olhar para o público antes de fechar.</p>
+        </div>
+        <div class="script-block script-block--say">
+          <span class="script-block__label">Falar &middot; depois do vídeo</span>
+          <p>"Como vocês viram, pesquisa e língua escutam as pessoas."</p>
+        </div>
+      </aside>
     </section>
 
     <!-- Slide 9: Fecho -->
-    <section class="slide" aria-labelledby="slide-9-title" data-notes="Fechar com a frase principal. Falar devagar, olhar para o público. Sorrir. Agradecer.">
+    <section class="slide" aria-labelledby="slide-9-title">
       <div class="slide__eyebrow">Fecho</div>
       <h2 class="slide__title" id="slide-9-title">Três línguas,<br>uma vida</h2>
       <div class="final">
@@ -822,12 +980,24 @@
         <p class="final__line" style="margin-top: 2rem; color: var(--muted); font-size: clamp(0.95rem, 1.2vw, 1.1rem);">As línguas não são só gramática. As línguas são lugares, memórias, trabalho, relações e formas de cuidar das pessoas.</p>
         <p class="final__line" style="margin-top: 2rem; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.08em; color: var(--gold);">Muito obrigado.</p>
       </div>
+      <aside class="slide__script">
+        <div class="script-block script-block--direction">
+          <span class="script-block__label">Instrução</span>
+          <p>Falar devagar. Olhar para o público. Sorrir. Pausa curta antes de "Muito obrigado".</p>
+        </div>
+        <div class="script-block script-block--say">
+          <span class="script-block__label">Falar</span>
+          <p>"Eu carrego o espanhol como memória, o inglês como trabalho, e o português como uma nova porta para imaginar futuros mais justos na América Latina."</p>
+          <p>"As línguas não são só gramática. As línguas são lugares, memórias, trabalho, relações e formas de cuidar das pessoas."</p>
+          <p>"Muito obrigado."</p>
+        </div>
+      </aside>
     </section>
 
   </main>
 
   <aside class="notes" id="notes" aria-live="polite" aria-label="Notas do apresentador">
-    <div class="notes__label">Notas do apresentador &middot; tecle S para esconder</div>
+    <div class="notes__label">Notas do apresentador &middot; instrução vs. falar &middot; tecle S para esconder</div>
     <div class="notes__content" id="notesContent"></div>
   </aside>
 
@@ -869,7 +1039,12 @@
     }
     currEl.textContent = (idx + 1);
     bar.style.width = (((idx + 1) / total) * 100).toFixed(2) + '%';
-    notesContent.textContent = slides[idx].dataset.notes || '';
+    var script = slides[idx].querySelector('.slide__script');
+    if (script) {
+      notesContent.innerHTML = script.innerHTML;
+    } else {
+      notesContent.textContent = slides[idx].dataset.notes || '';
+    }
     prevBtn.disabled = (idx === 0);
     nextBtn.disabled = (idx === total - 1);
     if (history && history.replaceState) {
