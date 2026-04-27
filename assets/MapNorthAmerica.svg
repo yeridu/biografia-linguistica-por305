@@ -15,6 +15,6 @@
   <g fill="#f5f1e8" font-family="Space Grotesk, sans-serif" font-size="20" font-weight="600" letter-spacing="2">
     <text x="310.39" y="434.45">TUCSON</text>
     <text x="403.41" y="769.20">CIDADE DO MÉXICO</text>
-    <text x="779.36" y="852.52">PUNTA GORDA</text>
+    <text x="755.36" y="852.52" text-anchor="end">PUNTA GORDA</text>
   </g>
 </svg>
