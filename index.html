@@ -588,6 +588,112 @@
   .final__line .acc-teal  { color: var(--teal); }
   .final__line .acc-gold  { color: var(--gold); }
 
+  /* Progress ring: top-right percent-covered indicator. Updates on every
+     slide change. The numeric label inside the ring is the cumulative
+     percentage covered = (current_slide / total_slides) * 100. */
+  .progress-ring {
+    position: fixed;
+    top: 0.85rem;
+    right: 0.85rem;
+    width: 58px;
+    height: 58px;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .progress-ring__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .progress-ring__bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.10);
+    stroke-width: 3;
+  }
+  .progress-ring__fg {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.55s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .progress-ring__text {
+    position: relative;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Slide and total timers: a pill above the HUD that lets the speaker
+     watch pace per slide and total elapsed. Reset / Pause buttons let
+     the speaker control timing during practice. */
+  .timer {
+    position: fixed;
+    bottom: 4.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.45rem 0.95rem;
+    background: rgba(18, 24, 38, 0.94);
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    z-index: 46;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
+    pointer-events: auto;
+  }
+  .timer__col { display: flex; align-items: baseline; gap: 0.45rem; }
+  .timer__label {
+    color: var(--muted);
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .timer__value {
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: 0.95rem;
+    min-width: 2.6em;
+  }
+  .timer__controls {
+    display: flex;
+    gap: 0.4rem;
+    border-left: 1px solid var(--border);
+    padding-left: 0.85rem;
+    margin-left: 0.2rem;
+  }
+  .timer__btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.28rem 0.7rem;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .timer__btn:hover { border-color: var(--teal); background: var(--teal-soft); }
+  .timer__btn--ghost { color: var(--muted); }
+  .timer.is-paused .timer__value { color: var(--muted); }
+  @media (max-width: 700px) {
+    .timer { font-size: 0.7rem; gap: 0.6rem; padding: 0.35rem 0.7rem; }
+    .timer__controls { padding-left: 0.45rem; }
+  }
+
   /* HUD: progress counter + nav + hints */
   .hud {
     position: fixed;
@@ -805,6 +911,7 @@
     .hud, .progress { display: none !important; }
     .notes { display: none !important; }
     .music-card, .qr-card { display: none !important; }
+    .progress-ring, .timer { display: none !important; }
     .slide__script {
       display: block !important;
       margin-top: 2rem;
@@ -1177,6 +1284,30 @@
 
   </main>
 
+  <div class="progress-ring" role="img" aria-label="Percent of presentation covered">
+    <svg class="progress-ring__svg" viewBox="0 0 36 36" aria-hidden="true">
+      <circle class="progress-ring__bg" cx="18" cy="18" r="15"></circle>
+      <circle class="progress-ring__fg" id="progressRingFg" cx="18" cy="18" r="15"
+              stroke-dasharray="94.25" stroke-dashoffset="94.25"></circle>
+    </svg>
+    <span class="progress-ring__text" id="progressRingText">0%</span>
+  </div>
+
+  <div class="timer" id="timer" aria-label="Cronometro do slide e total">
+    <div class="timer__col">
+      <span class="timer__label">Slide</span>
+      <span class="timer__value" id="timerSlide">0:00</span>
+    </div>
+    <div class="timer__col">
+      <span class="timer__label">Total</span>
+      <span class="timer__value" id="timerTotal">0:00</span>
+    </div>
+    <div class="timer__controls">
+      <button class="timer__btn" id="timerToggle" type="button" aria-label="Pausar ou continuar o cronometro">Pausar</button>
+      <button class="timer__btn timer__btn--ghost" id="timerReset" type="button" aria-label="Reiniciar o cronometro">Reiniciar</button>
+    </div>
+  </div>
+
   <aside class="notes" id="notes" aria-live="polite" aria-label="Notas do apresentador">
     <div class="notes__label">Notas do apresentador &middot; instrução vs. falar &middot; tecle S para esconder</div>
     <div class="notes__content" id="notesContent"></div>
@@ -1242,15 +1373,26 @@
   var notesContent = document.getElementById('notesContent');
   var prevBtn = document.getElementById('prev');
   var nextBtn = document.getElementById('next');
+  var ringFg = document.getElementById('progressRingFg');
+  var ringText = document.getElementById('progressRingText');
+  var ringCircumference = 2 * Math.PI * 15;
 
   totalEl.textContent = total;
+  if (ringFg) ringFg.setAttribute('stroke-dasharray', ringCircumference.toFixed(3));
 
   function render() {
     for (var i = 0; i < slides.length; i++) {
       slides[i].classList.toggle('active', i === idx);
     }
     currEl.textContent = (idx + 1);
-    bar.style.width = (((idx + 1) / total) * 100).toFixed(2) + '%';
+    var pct = ((idx + 1) / total) * 100;
+    bar.style.width = pct.toFixed(2) + '%';
+    if (ringFg) {
+      ringFg.style.strokeDashoffset = (ringCircumference * (1 - pct / 100)).toFixed(3);
+    }
+    if (ringText) {
+      ringText.textContent = Math.round(pct) + '%';
+    }
     var script = slides[idx].querySelector('.slide__script');
     if (script) {
       notesContent.innerHTML = script.innerHTML;
@@ -1264,6 +1406,70 @@
     }
   }
 
+  // --- Timer (per slide and total elapsed) ---
+  var timerEl = document.getElementById('timer');
+  var slideTimeEl = document.getElementById('timerSlide');
+  var totalTimeEl = document.getElementById('timerTotal');
+  var toggleBtn = document.getElementById('timerToggle');
+  var resetBtn = document.getElementById('timerReset');
+  var timerRunning = true;
+  var slideStart = Date.now();   // when current slide visit started
+  var totalStart = Date.now();   // when presentation timing started
+  var slideAccrued = 0;          // ms accrued during paused intervals on current slide
+  var totalAccrued = 0;          // ms accrued during paused intervals total
+  var lastIdx = idx;
+
+  function fmt(ms) {
+    var s = Math.max(0, Math.floor(ms / 1000));
+    var m = Math.floor(s / 60);
+    var sec = s % 60;
+    return m + ':' + (sec < 10 ? '0' + sec : sec);
+  }
+  function tick() {
+    var now = Date.now();
+    var slideMs = slideAccrued + (timerRunning ? (now - slideStart) : 0);
+    var totalMs = totalAccrued + (timerRunning ? (now - totalStart) : 0);
+    if (slideTimeEl) slideTimeEl.textContent = fmt(slideMs);
+    if (totalTimeEl) totalTimeEl.textContent = fmt(totalMs);
+  }
+  setInterval(tick, 250);
+
+  function resetSlideTimer() {
+    slideAccrued = 0;
+    slideStart = Date.now();
+    if (slideTimeEl) slideTimeEl.textContent = '0:00';
+  }
+  function resetAllTimers() {
+    slideAccrued = 0;
+    totalAccrued = 0;
+    slideStart = Date.now();
+    totalStart = Date.now();
+    if (slideTimeEl) slideTimeEl.textContent = '0:00';
+    if (totalTimeEl) totalTimeEl.textContent = '0:00';
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function () {
+      var now = Date.now();
+      if (timerRunning) {
+        slideAccrued += (now - slideStart);
+        totalAccrued += (now - totalStart);
+        timerRunning = false;
+        toggleBtn.textContent = 'Continuar';
+        if (timerEl) timerEl.classList.add('is-paused');
+      } else {
+        slideStart = now;
+        totalStart = now;
+        timerRunning = true;
+        toggleBtn.textContent = 'Pausar';
+        if (timerEl) timerEl.classList.remove('is-paused');
+      }
+    });
+  }
+  if (resetBtn) {
+    resetBtn.addEventListener('click', resetAllTimers);
+  }
+
   function goTo(n) {
     if (n < 0) n = 0;
     if (n > total - 1) n = total - 1;
@@ -1272,6 +1478,12 @@
     render();
     pauseAllVideos();
     syncSpotify();
+    // Reset the per-slide timer on every slide change so the speaker can
+    // monitor pace per slide. The total timer keeps running.
+    if (lastIdx !== idx) {
+      resetSlideTimer();
+      lastIdx = idx;
+    }
   }
 
   function next() { goTo(idx + 1); }
